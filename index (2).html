@@ -1,0 +1,673 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Resumo Lab. Engenharia de Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: caderno de estudo — índice fixo à esquerda, coluna de leitura à direita; cada aula é um bloco com faixa de "papel milimetrado" no cabeçalho */
+:root{
+  --bg:#f3f5f8; --paper:#ffffff; --ink:#18202e; --muted:#5a6578; --line:#d9dee7;
+  --accent:#2747c9; --accent-soft:#e6ebfb; --mark:#ffe58a; --ok:#1f7a4d; --warn:#b4471d;
+  --grid:rgba(39,71,201,.07);
+  --f-display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f131b; --paper:#161c27; --ink:#e4e8f0; --muted:#97a2b5; --line:#2a3242;
+  --accent:#8da4ff; --accent-soft:#1f2a4a; --mark:#6b5a12; --ok:#5fcf95; --warn:#ff9a6e;
+  --grid:rgba(141,164,255,.07); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f131b; --paper:#161c27; --ink:#e4e8f0; --muted:#97a2b5; --line:#2a3242;
+  --accent:#8da4ff; --accent-soft:#1f2a4a; --mark:#6b5a12; --ok:#5fcf95; --warn:#ff9a6e;
+  --grid:rgba(141,164,255,.07); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:16px/1.62 var(--f-body);padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr);gap:0}}
+
+header.top{max-width:1180px;margin:0 auto;padding-block:48px 32px;display:grid;gap:10px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font:800 clamp(34px,5.4vw,58px)/1.02 var(--f-display);letter-spacing:-.02em;margin:0;text-wrap:balance;max-width:16ch}
+.lede{color:var(--muted);max-width:62ch;margin:6px 0 0}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{font:500 12px/1 var(--f-mono);padding:7px 10px;border:1px solid var(--line);border-radius:99px;background:var(--paper);color:var(--muted)}
+
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px);align-self:start;display:grid;gap:4px;font-size:14px}
+nav.toc .lbl{font:500 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+nav.toc a{color:var(--ink);text-decoration:none;padding:5px 10px;border-radius:6px;display:block}
+nav.toc a.aula{font-weight:600;display:flex;gap:10px;align-items:baseline}
+nav.toc a.aula span{font:500 12px var(--f-mono);color:var(--accent)}
+nav.toc a.sub{color:var(--muted);padding-left:38px;font-size:13.5px}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--accent-soft);color:var(--ink);outline:none}
+@media (max-width:900px){
+  nav.toc{position:static;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}
+  nav.toc .lbl,nav.toc a.sub{display:none}
+  nav.toc a.aula{border:1px solid var(--line);background:var(--paper)}
+}
+
+main{display:grid;gap:40px;min-width:0}
+section.aula{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.aula-head{padding:28px 32px 24px;border-bottom:1px solid var(--line);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:18px 18px}
+.aula-head .num{font:800 64px/0.9 var(--f-display);color:var(--accent);letter-spacing:-.04em}
+.aula-head h2{font:700 clamp(24px,3vw,32px)/1.12 var(--f-display);margin:10px 0 6px;text-wrap:balance;letter-spacing:-.01em}
+.aula-head p{margin:0;color:var(--muted);max-width:62ch}
+.aula-body{padding:8px 32px 32px;display:grid;gap:0}
+@media (max-width:560px){.aula-head,.aula-body{padding-left:18px;padding-right:18px}}
+
+h3{font:700 20px/1.25 var(--f-display);margin:30px 0 10px;text-wrap:balance;scroll-margin-top:20px}
+h4{font:600 13px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:18px 0 8px}
+p{margin:0 0 12px;max-width:68ch}
+ul{margin:0 0 12px;padding-left:20px;max-width:68ch}
+li{margin:3px 0}
+li::marker{color:var(--accent)}
+strong{font-weight:600}
+mark{background:var(--mark);color:inherit;padding:0 3px;border-radius:3px}
+.mono{font-family:var(--f-mono);font-size:.9em}
+
+.def{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:8px 0 14px;max-width:70ch}
+.def b{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+blockquote{margin:12px 0;padding:0;font:500 19px/1.4 var(--f-display);max-width:46ch;color:var(--ink)}
+blockquote::before{content:"“";color:var(--accent);font-size:1.4em;line-height:0;margin-right:2px}
+
+.grid2,.grid3{display:grid;gap:12px;margin:6px 0 14px}
+.grid2{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.grid3{grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.card h5{font:700 16px/1.25 var(--f-display);margin:0 0 6px}
+.card p,.card ul{margin:0;font-size:14.5px}
+.card .tag{font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:4px 0 6px}
+@media (max-width:560px){.pc{grid-template-columns:1fr}}
+.pc div{font-size:14px;border-radius:8px;padding:10px 12px;border:1px solid var(--line)}
+.pc .pro b{color:var(--ok)} .pc .con b{color:var(--warn)}
+.pc b{font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:6px}
+.pc ul{margin:0;padding-left:16px}
+
+.tbl{overflow-x:auto;margin:6px 0 16px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font:500 11px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tbody tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600}
+
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0 14px;font:500 13px var(--f-mono)}
+.flow span{border:1px solid var(--line);border-radius:6px;padding:6px 10px;background:var(--bg)}
+.flow i{color:var(--accent);font-style:normal}
+
+.vmodel{display:grid;grid-template-columns:1fr auto 1fr;gap:6px 10px;align-items:center;margin:6px 0 14px;font-size:14px;max-width:620px}
+.vmodel .l,.vmodel .r{border:1px solid var(--line);border-radius:6px;padding:7px 10px}
+.vmodel .r{background:var(--accent-soft)}
+.vmodel .m{font:500 12px var(--f-mono);color:var(--accent);text-align:center}
+.vmodel .hd{font:500 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+.timeline{display:grid;gap:0;margin:6px 0 14px;border-left:2px solid var(--line);padding-left:18px}
+.timeline div{position:relative;padding:6px 0;font-size:14.5px}
+.timeline div::before{content:"";position:absolute;left:-24px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--paper);border:2px solid var(--accent)}
+.timeline b{font-family:var(--f-mono);font-weight:500;color:var(--accent);margin-right:8px}
+
+.manifesto{display:grid;gap:8px;margin:6px 0 14px}
+.manifesto div{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;font-size:14.5px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.manifesto strong{color:var(--accent)}
+.manifesto span{font:500 11px var(--f-mono);color:var(--muted);text-transform:uppercase}
+.manifesto em{color:var(--muted);font-style:normal}
+@media (max-width:560px){.manifesto div{grid-template-columns:1fr}}
+
+.tips{margin-top:22px;border:1px dashed var(--accent);border-radius:10px;padding:14px 18px}
+.tips h4{margin-top:0;color:var(--accent)}
+.tips ul{margin:0}
+
+.score{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 4px}
+.score div{border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:120px}
+.score b{display:block;font:800 26px/1 var(--f-display);color:var(--accent);font-variant-numeric:tabular-nums}
+.score span{font:500 11px/1.3 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.q{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}
+.q:first-of-type{border-top:0}
+.qhead{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:6px}
+.qhead h5{font:700 17px/1.3 var(--f-display);margin:0}
+.ans{font:600 13px/1 var(--f-mono);background:var(--accent);color:var(--paper);border-radius:6px;padding:5px 9px}
+.pts{font:500 12px/1 var(--f-mono);color:var(--ok);border:1px solid currentColor;border-radius:99px;padding:4px 9px}
+.pts.partial{color:var(--warn)}
+.q .stem{color:var(--muted);font-size:14.5px}
+.why{font-size:14.5px}
+.why ul{margin-top:4px}
+.model{border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:8px 0 10px;background:var(--bg);max-width:72ch;font-size:14.5px}
+.model > b{display:block;font:500 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.model p:last-child,.model ul:last-child{margin-bottom:0}
+.tblq td:nth-child(2){font-family:var(--f-mono);font-weight:600;color:var(--accent)}
+footer{max-width:1180px;margin:40px auto 0;color:var(--muted);font-size:13px}
+a{color:var(--accent)}
+</style>
+
+<header class="top">
+  <div class="eyebrow">Resumo de estudo · Prof. Edgar Salardani Senhorello · 2026.1</div>
+  <h1>Laboratório de Engenharia de Software</h1>
+  <p class="lede">Os pontos centrais das aulas 01 a 04: requisitos, ciclos de vida e UML; metodologias e Scrum; planejamento do projeto do semestre; arquitetura, cronograma e riscos.</p>
+  <div class="meta"><span class="chip">4 aulas</span><span class="chip">Prova comentada</span><span class="chip">Pressman · Sommerville · Bass</span><span class="chip">Projeto em grupos de 7</span></div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Índice">
+  <div class="lbl">Aulas</div>
+  <a class="aula" href="#a1"><span>01</span>Requisitos, ciclos e UML</a>
+  <a class="sub" href="#a1-req">Requisitos</a>
+  <a class="sub" href="#a1-ciclos">Ciclos de vida</a>
+  <a class="sub" href="#a1-uml">Diagramas UML</a>
+  <a class="aula" href="#a2"><span>02</span>Metodologias</a>
+  <a class="sub" href="#a2-proc">Processo e ontologia</a>
+  <a class="sub" href="#a2-modelos">Modelos clássicos</a>
+  <a class="sub" href="#a2-agil">Ágil, Scrum, Kanban</a>
+  <a class="sub" href="#a2-comp">Comparação</a>
+  <a class="aula" href="#a3"><span>03</span>Planejamento do projeto</a>
+  <a class="sub" href="#a3-times">Papéis e skills</a>
+  <a class="sub" href="#a3-mvp">Problema e MVP</a>
+  <a class="sub" href="#a3-filtros">Filtros de viabilidade</a>
+  <a class="aula" href="#a4"><span>04</span>Arquitetura e gestão</a>
+  <a class="sub" href="#a4-def">Definição</a>
+  <a class="sub" href="#a4-padroes">Padrões</a>
+  <a class="sub" href="#a4-tabela">Tabela-resumo</a>
+  <a class="sub" href="#a4-gestao">Cronograma e riscos</a>
+  <a class="aula" href="#prova"><span>P1</span>Prova comentada</a>
+  <a class="sub" href="#prova-obj">Objetivas 1–6</a>
+  <a class="sub" href="#prova-disc">Discursivas 7–9</a>
+</nav>
+
+<main>
+
+<!-- ============ AULA 01 ============ -->
+<section class="aula" id="a1">
+  <div class="aula-head">
+    <div class="num">01</div>
+    <h2>Requisitos, ciclos de vida e UML</h2>
+    <p>Visão geral da disciplina: do que o sistema deve fazer até como ele é modelado.</p>
+  </div>
+  <div class="aula-body">
+    <div class="def"><b>Engenharia de Software</b>Área da computação que aplica princípios da engenharia para projetar, desenvolver e manter softwares eficientes, confiáveis e escaláveis.</div>
+
+    <h3 id="a1-req">Engenharia de Requisitos</h3>
+    <p>Uma das fases mais importantes: define <mark>o que o sistema deve fazer antes da implementação</mark>. Requisitos são as funcionalidades e características necessárias para atender usuários e negócio.</p>
+    <div class="grid2">
+      <div class="card"><span class="tag">RF</span><h5>Requisito Funcional</h5><p>O que o sistema deve <strong>fazer</strong>.<br><em>“O sistema deve permitir o cadastro de usuários.”</em></p></div>
+      <div class="card"><span class="tag">RNF</span><h5>Requisito Não Funcional</h5><p>Restrições ou <strong>qualidades</strong> do sistema.<br><em>“O sistema deve responder às requisições em até 2 segundos.”</em></p></div>
+    </div>
+
+    <h3 id="a1-ciclos">Modelos de ciclo de vida</h3>
+    <p>É a primeira escolha do processo: define desde como levantar as necessidades do cliente até quando ele recebe a primeira versão operacional.</p>
+    <div class="grid3">
+      <div class="card"><h5>Cascata</h5><p>Fases sequenciais; uma só começa quando a anterior termina.</p></div>
+      <div class="card"><h5>Incremental</h5><p>Sistema entregue em partes funcionais, cada uma utilizável.</p></div>
+      <div class="card"><h5>Espiral</h5><p>Ciclos repetidos com foco em análise de riscos.</p></div>
+      <div class="card"><h5>Modelo V</h5><p>Cada fase de desenvolvimento tem uma fase de teste correspondente.</p></div>
+      <div class="card"><h5>Prototipação</h5><p>Versão simplificada para o cliente visualizar e interagir antes da final.</p></div>
+      <div class="card"><h5>RAD</h5><p>Desenvolvimento rápido, componentes prontos, equipes pequenas, cliente muito envolvido.</p></div>
+      <div class="card"><h5>RUP</h5><p>Iterativo e incremental em 4 fases: Iniciação, Elaboração, Construção, Transição. Foco em arquitetura desde o início.</p></div>
+      <div class="card"><h5>DevOps</h5><p>Integra Dev e Ops: automação, entrega contínua e colaboração.</p></div>
+    </div>
+
+    <h4>Prototipação × Incremental</h4>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Prototipação</th><th>Incremental</th></tr></thead>
+      <tbody>
+        <tr><td>Foco</td><td>Entender melhor os requisitos</td><td>Entregar partes funcionais</td></tr>
+        <tr><td>Como</td><td>Rascunho para testar ideias; cliente dá feedback</td><td>Etapas utilizáveis; cada incremento amplia o anterior</td></tr>
+        <tr><td>Sistema real</td><td>Só é construído depois</td><td>Cliente usa desde os primeiros módulos</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>RUP × RAD</h4>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>RUP</th><th>RAD</th></tr></thead>
+      <tbody>
+        <tr><td>Estilo</td><td>Estruturado e disciplinado</td><td>Informal e ágil</td></tr>
+        <tr><td>Organização</td><td>Fases bem definidas (Iniciação → Transição)</td><td>Ferramentas rápidas e componentes prontos</td></tr>
+        <tr><td>Foco</td><td>Documentação, arquitetura sólida</td><td>Velocidade e interação com o cliente</td></tr>
+        <tr><td>Ideal para</td><td>Projetos complexos e de longo prazo</td><td>Sistemas simples e prazos curtos</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>São ágeis?</h4>
+    <ul>
+      <li><strong>Prototipação</strong>: tem características ágeis (interação e adaptação rápida).</li>
+      <li><strong>RAD</strong>: fortemente influenciado pelo ágil.</li>
+      <li><strong>DevOps</strong>: alinhado ao ágil (entrega contínua, automação).</li>
+      <li><strong>RUP</strong>: não é ágil por natureza, mas pode ser adaptado.</li>
+    </ul>
+
+    <h3 id="a1-uml">Modelagem UML</h3>
+    <div class="grid2">
+      <div class="card"><h5>Casos de Uso</h5><p>Interação entre atores e sistema. Ex.: app bancário, onde “Fazer login” <span class="mono">&lt;include&gt;</span> “Verificar senha”; “Fazer transferência” inclui “Verificar saldo disponível”.</p></div>
+      <div class="card"><h5>Diagrama de Classes</h5><p>Estrutura <strong>estática</strong>. Classe = retângulo com 3 divisões: nome, atributos, métodos.</p></div>
+      <div class="card"><h5>Diagrama de Sequência</h5><p>Troca de mensagens entre objetos <strong>na ordem temporal</strong>. Usa estereótipos (rótulos do papel de cada elemento).</p></div>
+      <div class="card"><h5>Diagrama de Comunicação</h5><p>Mesma interação, com foco na <strong>estrutura</strong> das ligações entre objetos (a ordem existe, mas é secundária).</p></div>
+      <div class="card"><h5>Transição de Estados</h5><p>Estados de um objeto e os eventos que o fazem mudar.</p></div>
+      <div class="card"><h5>Diagrama de Atividades</h5><p>Comportamental: fluxos de processos de negócio, workflows e algoritmos ao longo do tempo.</p></div>
+    </div>
+
+    <h4>Relacionamentos entre classes</h4>
+    <div class="tbl"><table>
+      <thead><tr><th>Tipo</th><th>Significado</th><th>Notação</th></tr></thead>
+      <tbody>
+        <tr><td>Associação</td><td>Classes se conhecem / se relacionam</td><td>Linha simples</td></tr>
+        <tr><td>Herança (generalização)</td><td>“é um”: subclasse herda da superclasse</td><td>Seta com triângulo vazado</td></tr>
+        <tr><td>Dependência</td><td>Uma classe usa a outra temporariamente</td><td>Seta tracejada</td></tr>
+        <tr><td>Agregação</td><td>“tem um”; a parte existe sem o todo</td><td>Losango vazado</td></tr>
+        <tr><td>Composição</td><td>“parte de”; a parte morre com o todo</td><td>Losango cheio</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><strong>Multiplicidade</strong>: <span class="mono">1</span>, <span class="mono">0..1</span>, <span class="mono">0..*</span>, <span class="mono">1..*</span>.</li>
+      <li><strong>Grau</strong>: binária (2 classes, mais comum), ternária (3), quaternária (4), n-ária (5+).</li>
+      <li><strong>Reflexiva</strong> (auto-associação): objetos da mesma classe se relacionam com <em>outros</em> objetos dessa classe.</li>
+    </ul>
+
+    <h3>Arquitetura e sistemas existentes</h3>
+    <p>Características de uma arquitetura de qualidade: <strong>desempenho, escalabilidade, manutenibilidade, segurança, disponibilidade</strong>. Nem sempre dá para otimizar tudo: decisões envolvem <mark>trade-offs</mark>.</p>
+    <div class="grid2">
+      <div class="card"><h5>Engenharia Reversa</h5><p>Analisar um sistema existente para identificar componentes, funções e estrutura, sem acesso ao código ou documentação original.</p></div>
+      <div class="card"><h5>Sistemas Legados</h5><p>Plataformas em obsolescência que continuam em uso na empresa há muitos anos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AULA 02 ============ -->
+<section class="aula" id="a2">
+  <div class="aula-head">
+    <div class="num">02</div>
+    <h2>Metodologias de Desenvolvimento de Software</h2>
+    <p>Unidade I: da crise do software dos anos 60 ao DevOps, com visão crítica de cada modelo.</p>
+  </div>
+  <div class="aula-body">
+    <h3 id="a2-proc">Processo de software</h3>
+    <div class="def"><b>Processo</b>Define “quem faz o quê, quando e como”. Conjunto de atividades, ações e tarefas para construir um sistema de qualidade com previsibilidade e repetibilidade.</div>
+    <div class="flow"><span>Especificação</span><i>→</i><span>Desenvolvimento</span><i>→</i><span>Validação</span><i>→</i><span>Evolução</span></div>
+
+    <h4>Processo × Metodologia × Framework</h4>
+    <div class="grid3">
+      <div class="card"><span class="tag">O quê</span><h5>Processo</h5><p>Sequência lógica de passos que transforma entradas em software.</p></div>
+      <div class="card"><span class="tag">Como</span><h5>Metodologia</h5><p>Princípios, regras e práticas que orientam como executar o processo.</p></div>
+      <div class="card"><span class="tag">Base</span><h5>Framework</h5><p>Estrutura incompleta com ferramentas; o time preenche as lacunas.</p></div>
+    </div>
+    <p><em>Exemplo:</em> o processo segue a metodologia <strong>Ágil</strong>, usando o framework <strong>Scrum</strong>.</p>
+
+    <h4>Por que metodologias existem</h4>
+    <p><strong>Previsibilidade</strong> (prazo e custo), <strong>Qualidade</strong>, <strong>Comunicação</strong> (linguagem comum) e <strong>Gestão do conhecimento</strong> (não depender de “heróis”). Equilibram o triângulo de ferro: escopo, tempo e custo.</p>
+    <div class="def"><b>Relação crítica</b>Metodologias rígidas buscam previsibilidade via controle e planejamento exaustivo; ágeis, via adaptação constante e feedback rápido.</div>
+
+    <h4>Evolução histórica</h4>
+    <div class="timeline">
+      <div><b>60s/70s</b>Crise do Software. Nasce a Engenharia de Software (Garmisch, 1968).</div>
+      <div><b>80s</b>Processos pesados: controle, Cascata, normas rígidas.</div>
+      <div><b>90s</b>Modelos iterativos: RUP e abordagens incrementais.</div>
+      <div><b>2000s</b>Revolução Ágil: Manifesto (2001).</div>
+      <div><b>2010+</b>DevOps &amp; Cloud: integração contínua e cultura de produto.</div>
+    </div>
+
+    <h3 id="a2-modelos">Modelos clássicos</h3>
+    <h4>Cascata (Waterfall)</h4>
+    <div class="flow"><span>Requisitos</span><i>→</i><span>Projeto</span><i>→</i><span>Implementação</span><i>→</i><span>Testes</span><i>→</i><span>Manutenção</span></div>
+    <p><strong>Premissa:</strong> requisitos podem ser totalmente conhecidos e congelados antes da construção.</p>
+    <div class="pc"><div class="pro"><b>Forças</b>Estrutura clara, marcos definidos, fácil gestão com requisitos estáveis.</div><div class="con"><b>Limitações</b>“Efeito túnel”, feedback tardio, custo altíssimo de mudança no fim.</div></div>
+    <p>Ainda discutido para sistemas críticos (saúde, aeroespacial, defesa).</p>
+
+    <h4>Modelo em V</h4>
+    <div class="vmodel">
+      <div class="hd">Verificação</div><div></div><div class="hd">Validação</div>
+      <div class="l">Requisitos de negócio</div><div class="m">↔</div><div class="r">Teste de aceitação</div>
+      <div class="l">Arquitetura do sistema</div><div class="m">↔</div><div class="r">Teste de sistema</div>
+      <div class="l">Design de módulos</div><div class="m">↔</div><div class="r">Teste de integração</div>
+      <div class="l">Codificação</div><div class="m">↔</div><div class="r">Teste de unidade</div>
+    </div>
+    <p>Diferencial: o planejamento de testes vem <mark>para o início</mark>; teste é atividade paralela ao design. Padrão ouro em sistemas críticos e embarcados (rastreabilidade requisito ↔ teste).</p>
+
+    <h4>Espiral: gestão baseada em riscos</h4>
+    <div class="flow"><span>Planejamento</span><i>→</i><span>Análise de risco</span><i>→</i><span>Engenharia</span><i>→</i><span>Avaliação</span><i>↺</i></div>
+    <div class="pc"><div class="pro"><b>Forças</b>Realista para grande porte; foco preventivo em falhas críticas.</div><div class="con"><b>Limitações</b>Exige especialistas em risco, gestão complexa, custo elevado.</div></div>
+
+    <h4>Iterativo × Incremental</h4>
+    <div class="grid2">
+      <div class="card"><h5>Iteração</h5><p>Repetir um ciclo para <strong>refinar</strong> o produto conforme o conhecimento evolui. Foco em qualidade e correção de rumo.</p></div>
+      <div class="card"><h5>Incremento</h5><p><strong>Entregar</strong> uma parte funcional ao final de cada ciclo. Foco em valor e menor risco de rejeição.</p></div>
+    </div>
+    <p>“Construir um pouco, testar um pouco, aprender muito.” Erros aparecem em semanas, não em meses.</p>
+
+    <h3 id="a2-agil">Métodos ágeis</h3>
+    <h4>Manifesto Ágil (2001): 4 valores</h4>
+    <div class="manifesto">
+      <div><strong>Indivíduos e interações</strong><span>mais que</span><em>processos e ferramentas</em></div>
+      <div><strong>Software em funcionamento</strong><span>mais que</span><em>documentação abrangente</em></div>
+      <div><strong>Colaboração com o cliente</strong><span>mais que</span><em>negociação de contratos</em></div>
+      <div><strong>Responder a mudanças</strong><span>mais que</span><em>seguir um plano</em></div>
+    </div>
+    <p>Além dos 4 valores, o manifesto traz 12 princípios.</p>
+
+    <h4>Framework Scrum</h4>
+    <div class="grid3">
+      <div class="card"><span class="tag">Papéis</span><ul><li><strong>Product Owner</strong>: maximiza valor, gerencia o backlog</li><li><strong>Scrum Master</strong>: líder servidor, remove impedimentos</li><li><strong>Developers</strong>: criam o incremento</li></ul></div>
+      <div class="card"><span class="tag">Eventos</span><ul><li><strong>Sprint</strong>: 1 a 4 semanas</li><li><strong>Planning</strong> e <strong>Daily</strong></li><li><strong>Review</strong> (produto) e <strong>Retrospective</strong> (processo)</li></ul></div>
+      <div class="card"><span class="tag">Artefatos</span><ul><li><strong>Product Backlog</strong>: lista ordenada de tudo</li><li><strong>Sprint Backlog</strong>: itens da sprint atual</li><li><strong>Incremento</strong>: soma do que foi concluído</li></ul></div>
+    </div>
+
+    <h4>Kanban</h4>
+    <p>Quadro <span class="mono">A Fazer → Em Execução → Concluído</span>. <strong>Limitar o WIP</strong> (Work in Progress): “pare de começar, comece a terminar”. Reduz tempo de ciclo e expõe gargalos. Gerencia o <em>trabalho</em>, não as pessoas.</p>
+
+    <h4>Ser ágil × fazer ágil</h4>
+    <div class="pc"><div class="pro"><b>Ser ágil (mindset)</b><ul><li>Foco no valor</li><li>Errar rápido, aprender rápido</li><li>Autonomia do time</li><li>Mudar o plano com novas evidências</li></ul></div><div class="con"><b>Só fazer ágil (ritual)</b><ul><li>Daily mecânica</li><li>Sprint rígida mesmo se inútil</li><li>“Jira-centrismo”</li><li>Velocidade sem qualidade</li></ul></div></div>
+
+    <h4>Cultura de produto e documentação</h4>
+    <p>De <strong>output</strong> (entrega) para <strong>outcome</strong> (resultado). Projeto = escopo fechado e data de término; produto = evolução contínua, times multidisciplinares, responsabilidade compartilhada. Documentação ágil não é ausência de documentos: é o mínimo necessário, <em>just-in-time</em>.</p>
+    <blockquote>Documentação é como o código: se não for testada e mantida, ela apodrece.</blockquote>
+
+    <h3 id="a2-comp">Comparação crítica</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Critério</th><th>Cascata</th><th>Espiral</th><th>Ágil</th><th>DevOps</th></tr></thead>
+      <tbody>
+        <tr><td>Foco</td><td>Sequência e controle</td><td>Gestão de riscos</td><td>Valor e pessoas</td><td>Fluxo e cultura</td></tr>
+        <tr><td>Requisitos</td><td>Estáticos</td><td>Evolutivos</td><td>Dinâmicos / emergentes</td><td>Contínuos</td></tr>
+        <tr><td>Feedback</td><td>Tardio</td><td>Fim da espiral</td><td>Contínuo (sprints)</td><td>Imediato</td></tr>
+        <tr><td>Risco</td><td>Alto (descoberta tardia)</td><td>Gerenciado proativamente</td><td>Mitigado por iteração</td><td>Automatizado / observado</td></tr>
+        <tr><td>Mudança</td><td>Difícil, cara</td><td>Moderada, planejada</td><td>Bem-vinda</td><td>Nativa, automatizada</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Impacto em</th><th>Tradicional</th><th>Ágil</th></tr></thead>
+      <tbody>
+        <tr><td>Requisitos</td><td>Especificação exaustiva, escopo congelado cedo</td><td>User Stories, refinamento contínuo do backlog</td></tr>
+        <tr><td>Modelagem</td><td>UML detalhada</td><td>Modelagem emergente</td></tr>
+        <tr><td>Arquitetura</td><td>Rígida, monolítica, longo prazo</td><td>Evolutiva, modular, testável</td></tr>
+      </tbody>
+    </table></div>
+    <p>A escolha depende do <strong>contexto do projeto, maturidade do time e criticidade do sistema</strong>.</p>
+
+    <div class="tips">
+      <h4>Dinâmica Scrum em sala</h4>
+      <ul>
+        <li>Grupos de 7, com Scrum Master e Developers definidos; backlog visível.</li>
+        <li><strong>Sprint 1</strong>: RF, RNF, escopo (dentro/fora), casos de uso, modelo de processo + justificativa.</li>
+        <li><strong>Sprint 2</strong>: diagrama de classes, arquitetura (monolítica, MVC, microsserviços, camadas) + justificativa, padrões de projeto.</li>
+        <li><strong>Sprint 3</strong>: diagrama de atividades, refinamento e apresentação final.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AULA 03 ============ -->
+<section class="aula" id="a3">
+  <div class="aula-head">
+    <div class="num">03</div>
+    <h2>Planejamento do projeto do semestre</h2>
+    <p>Como montar o time, escolher o problema e garantir que o projeto seja entregável.</p>
+  </div>
+  <div class="aula-body">
+    <h3>Ciclo de vida e planejamento</h3>
+    <div class="flow"><span>Requisitos</span><i>→</i><span>Análise</span><i>→</i><span>Projeto</span><i>→</i><span>Implementação</span><i>→</i><span>Testes</span><i>→</i><span>Entrega</span></div>
+    <div class="grid3">
+      <div class="card"><h5>Requisito</h5><p>Necessidade essencial que o sistema deve atender.</p></div>
+      <div class="card"><h5>Escopo</h5><p>Limites claros do que será desenvolvido.</p></div>
+      <div class="card"><h5>Stakeholders</h5><p>Todas as partes interessadas.</p></div>
+    </div>
+    <blockquote>Software falha não por falta de código. Falha por falta de engenharia.</blockquote>
+
+    <h3 id="a3-times">Papéis e Skills Check</h3>
+    <p>Papéis: <strong>Desenvolvedor, Analista, Designer UI/UX, Tester, Gerente</strong>, que rodam ao longo do semestre. A avaliação é coletiva: organização, comunicação e produtividade.</p>
+    <p><strong>Skills Check</strong> mapeia as competências do time antes de definir o projeto: evita centralizar tarefas, reduz risco técnico, permite divisão estratégica e ajuda a escolher o escopo. Cuidado com o “depois a gente junta”.</p>
+
+    <h3 id="a3-mvp">Problema primeiro, depois o MVP</h3>
+    <div class="pc"><div class="con"><b>Evite (foco na solução)</b>“Quero um app mobile em React Native e Firebase.”</div><div class="pro"><b>Foque (foco no problema)</b>“Pequenos comércios perdem o controle de estoque e têm prejuízo.”</div></div>
+    <p>Perguntas: <em>Quem sofre? Por que existe? Com que frequência?</em></p>
+    <div class="def"><b>MVP · Minimum Viable Product</b>Versão mínima funcional que valida a ideia central e entrega valor real com o menor esforço possível. Resolva a dor principal antes de extras e cosméticos.</div>
+    <p>Projetos falham por <strong>crescimento descontrolado do escopo</strong>, <strong>falta de priorização</strong> e <strong>excesso de funcionalidades</strong>.</p>
+    <p><strong>Público e plataforma:</strong> quem usa, onde e como? Web, mobile, desktop ou híbrido devem combinar com o problema <em>e</em> com as habilidades do time.</p>
+
+    <h3 id="a3-filtros">Filtros de viabilidade</h3>
+    <div class="grid3">
+      <div class="card"><span class="tag">Temporal</span><h5>Dá para entregar em um semestre?</h5><p>Prazo é contrato. Planeje para entregar, não só para tentar.</p></div>
+      <div class="card"><span class="tag">Técnica</span><h5>O time domina ou aprende a tempo?</h5><p>Avalie stack e curva de aprendizado. Ideia excelente + equipe despreparada = fracasso previsível.</p></div>
+      <div class="card"><span class="tag">Relevância</span><h5>O problema existe de verdade?</h5><p>Problemas concretos são mais fáceis de modelar, testar e motivam o time.</p></div>
+    </div>
+
+    <h3>Gestão e entrega</h3>
+    <p>Ferramentas obrigatórias: <strong>Trello, Jira, Git, GitHub</strong>. Rastreabilidade: saber quem fez o quê e quando. No fim, demonstração ao vivo, estável e testada: “sem desculpas técnicas”.</p>
+    <div class="tips">
+      <h4>Atividade prática</h4>
+      <ul><li>1. Skills Check da equipe</li><li>2. Brainstorm de problemas reais</li><li>3. Aplicar os filtros de viabilidade</li><li>4. Preencher o Documento de Definição</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AULA 04 ============ -->
+<section class="aula" id="a4">
+  <div class="aula-head">
+    <div class="num">04</div>
+    <h2>Modelagem, arquitetura e gestão de software</h2>
+    <p>Estilos arquiteturais, quando usar cada um e como organizar tempo e riscos.</p>
+  </div>
+  <div class="aula-body">
+    <h4>Ferramentas</h4>
+    <div class="grid3">
+      <div class="card"><span class="tag">Modelagem</span><p>Lucidchart, Astah UML, Draw.io, Mermaid</p></div>
+      <div class="card"><span class="tag">Desenvolvimento</span><p>VS Code, React / Angular, Spring Boot / Node.js</p></div>
+      <div class="card"><span class="tag">Dados</span><p>PostgreSQL, MySQL, MongoDB (NoSQL)</p></div>
+    </div>
+
+    <h3 id="a4-def">O que é arquitetura</h3>
+    <p>Não é só escolher framework, linguagem ou banco.</p>
+    <div class="def"><b>ISO/IEC/IEEE 42010:2022</b>Estrutura fundamental (esqueleto) de um sistema, que define seus componentes, suas relações e seus princípios de projeto e evolução.</div>
+    <p>Bass, Clements e Kazman: a arquitetura <strong>habilita ou restringe atributos de qualidade</strong>. Exemplo: se o sistema acadêmico cai quando 1.000 alunos fazem matrícula ao mesmo tempo, o problema é a estrutura, não o botão “Salvar”.</p>
+    <p>Atributos-chave: <strong>escalabilidade</strong>, <strong>manutenção</strong>, <strong>performance</strong>. A escolha depende de: complexidade do domínio, tamanho da aplicação e da equipe, escalabilidade, desempenho, disponibilidade, segurança, manutenção, testabilidade, integração, frequência de mudanças, implantação independente, prazo, infraestrutura e orçamento.</p>
+    <p>A arquitetura é decidida na fase de <mark>Projeto e Design</mark> do ciclo de vida.</p>
+
+    <h3 id="a4-padroes">Padrões principais</h3>
+
+    <h4>Monolítica</h4>
+    <div class="pc"><div class="pro"><b>Vantagens</b><ul><li>Simples de desenvolver, testar e implantar</li><li>Debugging fácil, comunicação interna rápida</li><li>Boa para equipes pequenas</li></ul></div><div class="con"><b>Desvantagens (quando cresce)</b><ul><li>Módulos acoplados; mudança afeta várias áreas</li><li>Implanta e escala tudo junto</li><li>Conflitos entre vários times</li></ul></div></div>
+    <p><strong>Monólito é ruim?</strong> Não. Para equipe pequena, prazo curto e domínio em descoberta, um <mark>monólito bem modularizado</mark> é defensável.</p>
+
+    <h4>MVC (Model–View–Controller)</h4>
+    <p>Separa a interação da interface em três papéis (origem em Smalltalk, segundo Fowler).</p>
+    <div class="pc"><div class="pro"><b>Vantagens</b><ul><li>Separação de responsabilidades</li><li>Manutenção fácil, muito conhecido</li><li>Suporte em vários frameworks</li></ul></div><div class="con"><b>Desvantagens</b><ul><li>Exagero para apps simples</li><li>Controllers inchados, regra de negócio no Controller</li><li>Não resolve distribuição ou escala sozinho</li></ul></div></div>
+
+    <h4>Clean Architecture</h4>
+    <p>Protege o <strong>núcleo de negócio</strong> das tecnologias externas; as dependências apontam para dentro.</p>
+    <div class="pc"><div class="pro"><b>Vantagens</b><ul><li>Testabilidade, domínio independente</li><li>Boa para sistemas de vida longa</li></ul></div><div class="con"><b>Desvantagens</b><ul><li>Mais abstrações e complexidade</li><li>Exige disciplina; exagero em apps pequenos</li></ul></div></div>
+
+    <h4>SOA (Service-Oriented Architecture)</h4>
+    <p>Funcionalidades como serviços com contratos definidos, voltados a integração e reuso corporativo. Precursor dos microsserviços. Princípios (Thomas Erl): contrato formal, baixo acoplamento, abstração, reutilização, autonomia, mínimo estado, descoberta, composição.</p>
+    <div class="pc"><div class="pro"><b>Vantagens</b><ul><li>Interoperabilidade e reuso</li><li>Integra sistemas legados</li></ul></div><div class="con"><b>Desvantagens</b><ul><li>Governança complexa; ESB vira gargalo</li><li>Maior custo operacional</li></ul></div></div>
+
+    <h4>Microsserviços</h4>
+    <p>Serviços organizados por <strong>capacidades de negócio</strong>, com desenvolvimento, implantação e escala independentes.</p>
+    <div class="pc"><div class="pro"><b>Vantagens</b><ul><li>Implantação e escala independentes</li><li>Times autônomos, tecnologias diferentes</li><li>Falhas isoladas</li></ul></div><div class="con"><b>Desvantagens</b><ul><li>Comunicação pela rede, consistência de dados</li><li>Testes e debugging difíceis</li><li>Mais infraestrutura e custo</li></ul></div></div>
+    <p>Para 7 alunos com prazo curto, sete microsserviços = <strong>sete aplicações</strong> para configurar, testar, implantar e depurar.</p>
+
+    <h3 id="a4-tabela">Tabela-resumo de arquiteturas</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Arquitetura</th><th>Ideia central</th><th>Indicada quando…</th></tr></thead>
+      <tbody>
+        <tr><td>Monolítica</td><td>Aplicação implantada como uma unidade</td><td>Sistema pequeno/médio, equipe pequena</td></tr>
+        <tr><td>Camadas / N-Tier</td><td>Apresentação, negócio, dados…</td><td>Sistemas corporativos tradicionais</td></tr>
+        <tr><td>MVC</td><td>Model–View–Controller</td><td>Aplicações com interface</td></tr>
+        <tr><td>Hexagonal (Ports &amp; Adapters)</td><td>Domínio isolado de tecnologias externas</td><td>Testabilidade e evolução importam</td></tr>
+        <tr><td>Clean Architecture</td><td>Dependências apontam para o núcleo</td><td>Domínio complexo e longevidade</td></tr>
+        <tr><td>SOA</td><td>Funcionalidades como serviços</td><td>Integração entre sistemas empresariais</td></tr>
+        <tr><td>Microsserviços</td><td>Serviços independentes</td><td>Domínio complexo, escala e implantação independentes</td></tr>
+        <tr><td>Orientada a eventos</td><td>Componentes comunicam mudanças por eventos</td><td>Processamento assíncrono, baixo acoplamento</td></tr>
+        <tr><td>Microkernel / Plug-in</td><td>Núcleo pequeno + extensões</td><td>Sistemas altamente extensíveis</td></tr>
+        <tr><td>Pipes and Filters</td><td>Processamento em etapas</td><td>Transformação de dados</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 id="a4-gestao">Cronograma, registro e riscos</h3>
+    <div class="grid2">
+      <div class="card"><h5>Gestão de tempo</h5><p>Milestones claros e sprints curtas. Preveja a semana de provas e deixe folga: cronograma sem folga é promessa de atraso.</p></div>
+      <div class="card"><h5>Registro de atividades</h5><p>Quem fez, quando, por quê. O professor avalia o processo: GitHub vazio e sistema pronto no último dia não conta pontos.</p></div>
+      <div class="card"><h5>Identificar riscos</h5><p>E se o banco cair? E se a API externa mudar? Ache os gargalos antes que virem crise.</p></div>
+      <div class="card"><h5>Plano B</h5><p>Contingência: simplificar uma funcionalidade se o prazo apertar. Monitore diariamente. O maior risco é subestimar a complexidade.</p></div>
+    </div>
+
+    <h4>Referências</h4>
+    <ul>
+      <li>Bass, Clements, Kazman — <em>Software Architecture in Practice</em></li>
+      <li>Richards, Ford — <em>Fundamentals of Software Architecture</em></li>
+      <li>Fowler — <em>Patterns of Enterprise Application Architecture</em></li>
+      <li>Erl — <em>Service-Oriented Architecture</em> · Cockburn — <em>Hexagonal Architecture</em></li>
+      <li>Pressman &amp; Maxim; Sommerville; Guia do Scrum; Manifesto Ágil</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PROVA ============ -->
+<section class="aula" id="prova">
+  <div class="aula-head">
+    <div class="num">P1</div>
+    <h2>Prova comentada</h2>
+    <p>Gabarito das objetivas com o porquê de cada resposta, e respostas-modelo para as discursivas.</p>
+    <div class="score">
+      <div><b>3,0</b><span>Objetivas / 3,0</span></div>
+      <div><b>0,9</b><span>Questão 7 / 1,0</span></div>
+      <div><b>1,0</b><span>Questão 8 / 1,0</span></div>
+      <div><b>0,9</b><span>Questão 9 / 1,0</span></div>
+      <div><b>5,8</b><span>Total / 6,0</span></div>
+    </div>
+  </div>
+  <div class="aula-body">
+
+    <h3 id="prova-obj">Objetivas 1 a 6</h3>
+    <div class="tbl tblq"><table>
+      <thead><tr><th>Questão</th><th>Resposta</th><th>Tema</th><th>Aula</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>D</td><td>Atividades fundamentais do processo</td><td>02</td></tr>
+        <tr><td>2</td><td>B</td><td>Por que metodologias existem</td><td>02</td></tr>
+        <tr><td>3</td><td>A</td><td>Skills Check e divisão de tarefas</td><td>03</td></tr>
+        <tr><td>4</td><td>A</td><td>Filtros de viabilidade</td><td>03</td></tr>
+        <tr><td>5</td><td>B</td><td>Stack de gestão e cultura de engenharia</td><td>03 / 02</td></tr>
+        <tr><td>6</td><td>C</td><td>Uso da UML nas empresas</td><td>01</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="q">
+      <div class="qhead"><h5>1. Processo de software (Sommerville / Pressman)</h5><span class="ans">D</span><span class="pts">0,5 / 0,5</span></div>
+      <p class="why"><strong>D:</strong> as atividades fundamentais são <strong>especificação, desenvolvimento, validação e evolução</strong>, presentes em qualquer modelo (cascata, ágil, iterativo).</p>
+      <div class="why"><ul>
+        <li>A: errada, o processo não se concentra na implementação.</li>
+        <li>B: errada, o processo não depende da tecnologia escolhida.</li>
+        <li>C: errada, as fases finais (validação, evolução) não são secundárias para a qualidade.</li>
+      </ul></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><h5>2. Metodologias (Brooks / Pressman)</h5><span class="ans">B</span><span class="pts">0,5 / 0,5</span></div>
+      <p class="why"><strong>B:</strong> metodologias <strong>estruturam</strong> o desenvolvimento, melhorando qualidade e previsibilidade de prazos e resultados.</p>
+      <div class="why"><ul>
+        <li>A: errada, a complexidade é inerente (Brooks); metodologia a organiza, não elimina etapas.</li>
+        <li>C: errada, o objetivo não é padronizar ferramentas.</li>
+        <li>D: errada, metodologias ágeis existem justamente para contextos dinâmicos.</li>
+      </ul></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><h5>3. Organização do time e Skills Check</h5><span class="ans">A</span><span class="pts">0,5 / 0,5</span></div>
+      <p class="why"><strong>A:</strong> mapear competências orienta a <strong>divisão estratégica</strong> das tarefas e <strong>reduz riscos técnicos</strong>, exatamente os objetivos do Skills Check da Aula 03.</p>
+      <div class="why"><ul>
+        <li>B: errada, os riscos dependem muito de fatores internos (o próprio time).</li>
+        <li>C: errada, a forma de definir papéis afeta a colaboração.</li>
+        <li>D: distrator; o slide não fala em perda de flexibilidade.</li>
+      </ul></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><h5>4. Filtros de viabilidade</h5><span class="ans">A</span><span class="pts">0,5 / 0,5</span></div>
+      <p class="why"><strong>A:</strong> os filtros avaliam <strong>tempo</strong> (temporal), <strong>capacidade técnica</strong> (técnico) e <strong>importância do problema</strong> (relevância), levando a um escopo coerente.</p>
+      <div class="why"><ul>
+        <li>B: errada, troca os conceitos (temporal = prazo; técnica = conhecimento do time).</li>
+        <li>C: errada, relevância é avaliada <em>antes</em>, logo após “o problema existe?”.</li>
+        <li>D: errada, os filtros protegem o projeto acadêmico contra fracasso precoce.</li>
+      </ul></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><h5>5. Stack de gestão e DevOps (Fowler)</h5><span class="ans">B</span><span class="pts">0,5 / 0,5</span></div>
+      <p class="why"><strong>B:</strong> stack integrada + controle de versão favorece <strong>rastreabilidade</strong>, colaboração e a <strong>cultura de engenharia</strong>.</p>
+      <div class="why"><ul>
+        <li>A: errada, as ferramentas alteram, sim, a colaboração.</li>
+        <li>C: errada, cultura de engenharia não é padronizar tecnologia; ferramentas têm impacto direto.</li>
+        <li>D: errada, gestão não é pontual; acompanha a execução contínua (o ciclo infinito do DevOps).</li>
+      </ul></div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><h5>6. UML nas empresas (OMG)</h5><span class="ans">C</span><span class="pts">0,5 / 0,5</span></div>
+      <p class="why"><strong>C:</strong> a UML é usada de forma <strong>contextualizada</strong>, adaptada às necessidades de comunicação e documentação de cada projeto (conclusão do artigo discutido em sala).</p>
+      <div class="why"><ul>
+        <li>A: errada, as empresas não usam todos os diagramas de forma padronizada.</li>
+        <li>B: errada, o ágil adapta o uso da UML, não a substitui.</li>
+        <li>D: errada, a UML também apoia manutenção e evolução.</li>
+      </ul></div>
+    </div>
+
+    <h3 id="prova-disc">Discursivas 7 a 9</h3>
+
+    <div class="q">
+      <div class="qhead"><h5>7. Arquitetura de software (Len Bass)</h5><span class="pts partial">0,9 / 1,0</span></div>
+      <p class="stem"><strong>a) (0,5)</strong> Por que definir a arquitetura na fase de projeto e design é estratégico? Relacione com desenvolvimento e manutenção. <em>Sua nota: 0,5</em></p>
+      <div class="model"><b>Resposta-modelo</b>
+        <p>A arquitetura é o “esqueleto” do sistema: define componentes, relações e princípios de evolução (ISO 42010). Decidida na fase de projeto e design, ela orienta tudo que vem depois. Segundo Bass, ela <strong>habilita ou restringe atributos de qualidade</strong> como desempenho, escalabilidade e segurança.</p>
+        <p><strong>No desenvolvimento:</strong> organiza a divisão do trabalho entre a equipe, evita retrabalho e reduz custos, porque mudar a estrutura depois é caro.</p>
+        <p><strong>Na manutenção:</strong> com responsabilidades bem separadas (camadas, MVC, Clean), fica mais fácil corrigir bugs, testar e adicionar funcionalidades sem quebrar outras partes.</p>
+      </div>
+      <p class="stem"><strong>b) (0,5)</strong> Como a escolha inadequada de um padrão arquitetural pode afetar o projeto? Dê exemplos para a equipe e para o cliente. <em>Sua nota: 0,4. Faltaram exemplos concretos de padrões.</em></p>
+      <div class="model"><b>Resposta-modelo</b>
+        <p><strong>Para a equipe:</strong></p>
+        <ul>
+          <li>Microsserviços num time pequeno com prazo curto: 7 serviços viram 7 aplicações para configurar, testar, implantar e depurar, gerando atrasos e alta complexidade operacional.</li>
+          <li>Monólito sem modularização num sistema que cresce: código acoplado, alterações quebram outras áreas e vários devs entram em conflito.</li>
+          <li>Clean Architecture num app simples: abstrações demais e mais tempo de desenvolvimento.</li>
+        </ul>
+        <p><strong>Para o cliente:</strong> sistema lento ou fora do ar sob carga (ex.: o sistema acadêmico cai quando 1.000 alunos fazem matrícula ao mesmo tempo), atrasos de entrega, custo maior e dificuldade para receber novas funcionalidades.</p>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><h5>8. Cronograma e gestão de tempo</h5><span class="pts">1,0 / 1,0</span></div>
+      <p class="stem"><strong>a) (0,5)</strong> Como o cronograma foi (ou poderia ter sido) usado; situações concretas. <em>Sua nota: 0,5</em></p>
+      <div class="model"><b>Resposta-modelo</b>
+        <p>O cronograma divide o projeto em <strong>marcos (milestones)</strong> e <strong>sprints</strong> curtas, com uma tarefa e um prazo para cada membro. Exemplo: as entregas de requisitos, diagramas e protótipo foram marcadas em datas fixas; ao prever a semana de provas, o time adiantou tarefas e manteve o ritmo. Deixar uma <strong>folga</strong> absorveu um atraso de integração sem comprometer a entrega final.</p>
+      </div>
+      <p class="stem"><strong>b) (0,5)</strong> Dois desafios de gestão de tempo, seus efeitos nos prazos e como lidar. <em>Sua nota: 0,5</em></p>
+      <div class="model"><b>Resposta-modelo</b>
+        <ul>
+          <li><strong>Centralização de tarefas:</strong> poucos membros acumulam o trabalho e viram gargalo. <em>Solução:</em> Skills Check e divisão estratégica das tarefas.</li>
+          <li><strong>Subestimar a complexidade / cronograma sem folga:</strong> a curva de aprendizado ou atividades externas (provas) atrasam tudo. <em>Solução:</em> prever folga e semanas de pico, priorizar o MVP e acompanhar o progresso a cada sprint.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="qhead"><h5>9. Gestão de riscos</h5><span class="pts partial">0,9 / 1,0</span></div>
+      <p class="stem"><strong>a) (0,5)</strong> Explique os elementos da gestão de riscos. <em>Sua nota: 0,4. “Realidade do projeto” ficou incompleta.</em></p>
+      <div class="tbl"><table>
+        <thead><tr><th>Elemento</th><th>Resposta-modelo</th></tr></thead>
+        <tbody>
+          <tr><td>Identificação de riscos</td><td>Antecipar o que pode dar errado (o banco cair, a API externa mudar) e achar os gargalos técnicos antes que virem problemas críticos.</td></tr>
+          <tr><td>Planos de contingência</td><td>Ter um Plano B para cada risco. Ex.: simplificar uma funcionalidade complexa se o prazo apertar.</td></tr>
+          <tr><td>Monitoramento contínuo</td><td>Acompanhar o progresso do time diariamente; risco não gerenciado vira crise de última hora.</td></tr>
+          <tr><td>Realidade do projeto</td><td><mark>Subestimar a complexidade é o maior risco.</mark> Conhecer as limitações técnicas da equipe e ajustar o escopo a elas é sinal de maturidade profissional.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="stem"><strong>b) (0,5)</strong> Como sua equipe tratou os riscos; número da equipe e exemplos. <em>Sua nota: 0,5 (Grupo 1)</em></p>
+      <div class="model"><b>Estrutura de uma boa resposta</b>
+        <p>Número da equipe + revisão periódica das funções e da disponibilidade de cada membro + pelo menos um risco real com a decisão tomada. Ex.: “Grupo 1: quando alguns integrantes não puderam comparecer, redistribuímos as tarefas da sprint conforme o Skills Check e simplificamos uma funcionalidade para manter o prazo do MVP.”</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+</div>
+<footer>Resumo baseado nos slides das Aulas 01–04. Alguns slides eram só imagens (ex.: notação dos relacionamentos UML); nesses pontos o resumo usa a notação UML padrão.</footer>
+
+</body></html>
